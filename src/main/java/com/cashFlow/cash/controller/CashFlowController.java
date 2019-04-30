@@ -4,8 +4,12 @@ import com.cashFlow.cash.exception.ResourceNotFoundException;
 import com.cashFlow.cash.model.CashFlow;
 import com.cashFlow.cash.repository.CashFlowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,8 +27,18 @@ public class CashFlowController {
     }
 
     @PostMapping("/cashFlow")
-    public CashFlow createCashFlow(@Valid @RequestBody CashFlow cashFlow) {
-        return cashFlowRepository.save(cashFlow);
+    public ResponseEntity<?> createCashFlow(@Valid @RequestBody CashFlow cashFlow) {
+
+        cashFlowRepository.save(cashFlow);
+
+        UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(8080)
+                .path("/api/cashFlow").build(true);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uriComponents.toUri());
+
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/cashFlow/{id}")
@@ -35,7 +49,7 @@ public class CashFlowController {
 
     @PutMapping("/cashFlow/{id}")
     public CashFlow updateCashFlow(@PathVariable(value = "id") Long cashFlowId,
-                                           @Valid @RequestBody CashFlow cashFlowDetails) {
+                                   @Valid @RequestBody CashFlow cashFlowDetails) {
 
         CashFlow cashFlow = cashFlowRepository.findById(cashFlowId)
                 .orElseThrow(() -> new ResourceNotFoundException("CashFlow", "id", cashFlowId));
