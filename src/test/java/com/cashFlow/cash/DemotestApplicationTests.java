@@ -1,4 +1,4 @@
-package com.fortest.demotest;
+package com.cashFlow.cash;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
