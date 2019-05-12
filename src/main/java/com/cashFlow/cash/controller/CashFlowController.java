@@ -6,6 +6,7 @@ import com.cashFlow.cash.repository.CashFlowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
@@ -22,8 +23,16 @@ public class CashFlowController {
     CashFlowRepository cashFlowRepository;
 
     @GetMapping("/cashFlow")
-    public List<CashFlow> getAllCashFlow() {
-        return cashFlowRepository.findAll();
+    public ResponseEntity<List<CashFlow>> getAllCashFlow() {
+        List<CashFlow> allCashFlow = cashFlowRepository.findAll();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        headers.getConnection();
+
+
+
+        return new ResponseEntity<List<CashFlow>>(allCashFlow, headers, HttpStatus.OK);
     }
 
     @PostMapping("/cashFlow")
