@@ -39,10 +39,10 @@ public class CashFlowController {
     public ResponseEntity<?> createCashFlow(@Valid @RequestBody CashFlow cashFlow) {
 
         cashFlowRepository.save(cashFlow);
+        long countAllCashFlow = cashFlowRepository.count() + 1;
 
         UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(8080)
-                .path("/api/cashFlow").build(true);
-
+                .path("/api/cashFlow/"+countAllCashFlow).build(true);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriComponents.toUri());
