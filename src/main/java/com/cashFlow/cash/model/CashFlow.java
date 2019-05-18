@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import java.util.Date;
 @Entity
 @Table(name = "cashFlow")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt", "id"},
         allowGetters = false)
 public class CashFlow {
     @Id
@@ -26,6 +27,9 @@ public class CashFlow {
 
     @NotBlank
     private String description;
+
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -59,6 +63,14 @@ public class CashFlow {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Date getCreatedAt() {
