@@ -23,7 +23,7 @@ public class CashFlow {
     private Long id;
 
     @NotNull
-    private Float amount;
+    private Double amount;
 
     @NotBlank
     private String description;
@@ -49,11 +49,11 @@ public class CashFlow {
         this.id = id;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
