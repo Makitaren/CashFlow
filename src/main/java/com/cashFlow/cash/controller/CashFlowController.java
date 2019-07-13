@@ -47,10 +47,14 @@ public class CashFlowController {
     public ResponseEntity<?> createCashFlow(@Valid @RequestBody CashFlow cashFlow) {
 
         cashFlowRepository.save(cashFlow);
-        long countAllCashFlow = cashFlowRepository.count() + 1;
+
+        List<CashFlow> allCashFlows = cashFlowRepository.findAll();
+        int count = allCashFlows.size()-1;
+
+        int id = allCashFlows.get(count).getId().intValue();
 
         UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(8080)
-                .path("/api/cashFlow/" + countAllCashFlow).build(true);
+                .path("/api/cashFlow/" + id).build(true);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriComponents.toUri());
@@ -73,6 +77,7 @@ public class CashFlowController {
 
         cashFlow.setAmount(cashFlowDetails.getAmount());
         cashFlow.setDescription(cashFlowDetails.getDescription());
+        cashFlow.setDate(cashFlowDetails.getDate());
 
         CashFlow updatedCashFlow = cashFlowRepository.save(cashFlow);
         return updatedCashFlow;
