@@ -43,13 +43,60 @@ public class CashFlowController {
         return new ResponseEntity<List<CashFlow>>(allCashFlow, headers, HttpStatus.OK);
     }
 
+    @GetMapping({"/cashFlowsByDate", "/cashFlowsByDate/{period}"})
+    public ResponseEntity<List<CashFlow>> getCashFlowsByDate(@PathVariable(value = "period", required = false) Integer period, @RequestParam(required = false) String startDate, String endDate) throws ParseException {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        headers.getConnection();
+
+        if (period == null & startDate == null & endDate == null) {
+            List<CashFlow> allCashFlow = cashFlowRepository.findAll();
+
+            return new ResponseEntity<List<CashFlow>>(allCashFlow, headers, HttpStatus.OK);
+
+        } else if (period == null & startDate != null & endDate != null) {
+            List<CashFlow> allCashFlow = cashFlowRepository.findAllByDateBetween(
+                    new SimpleDateFormat("yyyy-MM-dd").parse(startDate),
+                    new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+
+            return new ResponseEntity<List<CashFlow>>(allCashFlow, headers, HttpStatus.OK);
+
+        } else if (period == 1 & startDate == null & endDate == null) {
+            List<CashFlow> allCashFlow = cashFlowRepository.findAllByDateBetween(
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2019-01-01"),
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2019-01-31"));
+
+            return new ResponseEntity<List<CashFlow>>(allCashFlow, headers, HttpStatus.OK);
+        } else if (period == 2 & startDate == null & endDate == null) {
+            List<CashFlow> allCashFlow = cashFlowRepository.findAllByDateBetween(
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2019-02-01"),
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2019-02-28"));
+
+            return new ResponseEntity<List<CashFlow>>(allCashFlow, headers, HttpStatus.OK);
+        } else if (period == 3 & startDate == null & endDate == null) {
+            List<CashFlow> allCashFlow = cashFlowRepository.findAllByDateBetween(
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2019-03-01"),
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2019-03-30"));
+
+            return new ResponseEntity<List<CashFlow>>(allCashFlow, headers, HttpStatus.OK);
+        } else if (period == 4 & startDate == null & endDate == null) {
+            List<CashFlow> allCashFlow = cashFlowRepository.findAllByDateBetween(
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2019-04-01"),
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2019-04-31"));
+
+            return new ResponseEntity<List<CashFlow>>(allCashFlow, headers, HttpStatus.OK);
+        }
+        return new ResponseEntity(headers, HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping("/cashFlow")
     public ResponseEntity<?> createCashFlow(@Valid @RequestBody CashFlow cashFlow) {
 
         cashFlowRepository.save(cashFlow);
 
         List<CashFlow> allCashFlows = cashFlowRepository.findAll();
-        int count = allCashFlows.size()-1;
+        int count = allCashFlows.size() - 1;
 
         int id = allCashFlows.get(count).getId().intValue();
 
