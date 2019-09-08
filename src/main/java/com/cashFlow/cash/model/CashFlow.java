@@ -1,6 +1,7 @@
 package com.cashFlow.cash.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -27,6 +28,9 @@ public class CashFlow {
 
     @NotBlank
     private String description;
+
+    @Value("${props.isCash:false}")
+    private boolean isCash;
 
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -89,4 +93,11 @@ public class CashFlow {
         this.updatedAt = updatedAt;
     }
 
+    public boolean isCash() {
+        return isCash;
+    }
+
+    public void setCash(boolean cash) {
+        isCash = cash;
+    }
 }

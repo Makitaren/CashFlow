@@ -14,5 +14,4 @@ public interface CashFlowRepository extends JpaRepository<CashFlow, Long> {
     List<CashFlow> findAllByDateBetween(
             Date startDate,
             Date endDate);
-
 }

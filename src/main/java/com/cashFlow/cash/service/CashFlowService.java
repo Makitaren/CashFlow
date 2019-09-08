@@ -5,7 +5,6 @@ import com.cashFlow.cash.model.CashFlow;
 import com.cashFlow.cash.model.Period;
 import com.cashFlow.cash.repository.CashFlowRepository;
 import com.cashFlow.cash.repository.PeriodRepository;
-import com.cashFlow.cash.repository.SavingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -71,7 +70,7 @@ public class CashFlowService {
 
         int id = allCashFlows.get(count).getId().intValue();
 
-        UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(8080)
+        UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(9000)
                 .path("/api/cashFlow/" + id).build(true);
 
         HttpHeaders headers = new HttpHeaders();
@@ -123,6 +122,7 @@ public class CashFlowService {
                 cashFlow.setAmount(Double.parseDouble(data[0]));
                 cashFlow.setDescription(data[1]);
                 cashFlow.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(data[2]));
+                cashFlow.setCash(Boolean.parseBoolean(data[3]));
 
                 listCashFlow.add(cashFlow);
                 cashFlowRepository.save(cashFlow);
@@ -136,7 +136,7 @@ public class CashFlowService {
 
         long countAllCashFlow = cashFlowRepository.count() + 1;
 
-        UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(8080)
+        UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(9000)
                 .path("/api/cashFlow/" + countAllCashFlow).build(true);
 
         HttpHeaders headers = new HttpHeaders();

@@ -21,8 +21,13 @@ public class StatisticsCentroller {
     @Autowired
     StatisticService service;
 
-    @GetMapping("/cashFlows/raport")
-    public ResponseEntity<List<Map<String, Double>>> getRaportCashFlows() throws ParseException {
+    @GetMapping("/cashFlows/spend")
+    public ResponseEntity<List<Map<String, Double>>> getSpendCashFlows() throws ParseException {
+        return service.getRaportCashFlows();
+    }
+
+    @GetMapping("/cashFlows/available")
+    public ResponseEntity<List<Map<String, Double>>> getAvailableCashFlows() throws ParseException {
         return service.getRaportCashFlows();
     }
 

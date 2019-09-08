@@ -25,12 +25,13 @@ public class CashFlowController {
             @RequestParam(required = false) String startDate, String endDate) throws ParseException {
         return service.getCashFlows(periodId, startDate, endDate);
     }
-
+    @CrossOrigin
     @PostMapping("/cashFlow")
     public ResponseEntity<?> createCashFlow(@Valid @RequestBody CashFlow cashFlow) {
         return service.createCashFlow(cashFlow);
     }
 
+    @CrossOrigin
     @GetMapping("/cashFlow/{id}")
     public CashFlow getCashFlowById(@PathVariable(value = "id") Long cashFlowId) {
         return service.getCashFlowById(cashFlowId);

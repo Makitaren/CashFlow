@@ -41,7 +41,7 @@ public class PeriodService {
 
         int id = allPeriods.get(count).getId().intValue();
 
-        UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(8080)
+        UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(9000)
                 .path("/api/period/" + id).build(true);
 
         HttpHeaders headers = new HttpHeaders();
